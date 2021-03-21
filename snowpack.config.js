@@ -22,16 +22,6 @@ module.exports = {
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-svelte',
     '@snowpack/plugin-typescript',
-    [
-      '@snowpack/plugin-run-script',
-      {
-        // warnings here https://github.com/sveltejs/svelte/blob/HEAD/src/compiler/compile/Component.ts
-        cmd:
-          'svelte-check --output human --compiler-warnings module-script-reactive-declaration:ignore',
-        watch:
-          'svelte-check --watch --output human --compiler-warnings module-script-reactive-declaration:ignore',
-      },
-    ],
     '@hisystems/snowpack-plugin-postcss',
     [
       '@snowpack/plugin-webpack',
