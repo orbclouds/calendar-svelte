@@ -1,39 +1,60 @@
 <script lang="ts" context="module">
-  import type { Events } from "@app/events";
+  import type { Events } from '@app/events';
 </script>
 
 <script lang="ts">
-  import { Link } from "svelte-routing";
+  import { Link } from 'svelte-routing';
 
-  import dayStore from "@app/day";
-  import events from "@app/events";
-  import { getDateString } from "@app/utils";
+  import dayStore from '@app/day';
+  import events from '@app/events';
+  import { getDateString } from '@app/utils';
 
   export let year: string;
   export let month: string;
   export let day: string;
 
-  dayStore.set(new Date(parseInt(year), parseInt(month) - 1, parseInt(day)));
+  dayStore.set(
+    new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day)
+    )
+  );
 
-  $: dateKey = getDateString($dayStore, "-");
+  $: dateKey = getDateString(
+    $dayStore,
+    '-'
+  );
 
-  $: eventsOnDay = $events[dateKey] || [];
+  $: eventsOnDay =
+    $events[dateKey] || [];
 
-  const deleteEvent = (name: string) => () => {
+  const deleteEvent = (
+    name: string
+  ) => () => {
     events.update((prev) => ({
       ...prev,
-      [dateKey]: prev[dateKey].filter((value) => value !== name),
+      [dateKey]: prev[dateKey].filter(
+        (value) => value !== name
+      ),
     }));
   };
 </script>
 
 <main>
   <header>
-    <Link to="/" title="Home">&lt; Back</Link>
+    <Link to="/" title="Home"
+      >&lt; Back</Link
+    >
     <span>
       {$dayStore.toDateString()}
     </span>
-    <Link to={`/event/${getDateString($dayStore)}`} title="Add an Event">
+    <Link
+      to={`/event/${getDateString(
+        $dayStore
+      )}`}
+      title="Add an Event"
+    >
       + New Event
     </Link>
   </header>
@@ -44,7 +65,10 @@
         <div class="name">
           {name}
         </div>
-        <button type="button" on:click={deleteEvent(name)}>
+        <button
+          type="button"
+          on:click={deleteEvent(name)}
+        >
           - Delete Event
         </button>
       </div>
@@ -84,8 +108,10 @@
     border: solid 1px;
     margin: 8px 0;
     border-color: rgba(0, 0, 0, 0.05);
-    transition: background 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-      border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: background 0.3s
+        cubic-bezier(0.25, 0.1, 0.25, 1),
+      border-color 0.3s
+        cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   div.event:hover {

@@ -1,50 +1,79 @@
 <script>
-  import dayStore from "@app/day";
-  import events from "@app/events";
-  import { getDateString } from "@app/utils";
-  import { navigate } from "svelte-routing";
+  import dayStore from '@app/day';
+  import events from '@app/events';
+  import { getDateString } from '@app/utils';
+  import { navigate } from 'svelte-routing';
 
   export let year: string;
   export let month: string;
   export let day: string;
 
-  dayStore.set(new Date(parseInt(year), parseInt(month) - 1, parseInt(day)));
+  dayStore.set(
+    new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day)
+    )
+  );
 
   let event = {
-    name: "",
-    date: getDateString($dayStore, "-"),
+    name: '',
+    date: getDateString($dayStore, '-'),
   };
 
   const createEvent = () => {
     events.update((prev) => ({
       ...prev,
-      [event.date]: [...(prev[event.date] ? prev[event.date] : []), event.name],
+      [event.date]: [
+        ...(prev[event.date]
+          ? prev[event.date]
+          : []),
+        event.name,
+      ],
     }));
-    navigate("/");
+    navigate('/');
   };
 
   const goBack = () => {
-    navigate("/");
+    navigate('/');
   };
 </script>
 
 <main>
   <h1>Create an Event</h1>
 
-  <form on:submit|preventDefault={createEvent}>
+  <form
+    on:submit|preventDefault={createEvent}
+  >
     <section>
       <label for="name"> Name: </label>
       <br />
-      <input id="name" type="text" bind:value={event.name} required />
+      <input
+        id="name"
+        type="text"
+        bind:value={event.name}
+        required
+      />
     </section>
     <section>
       <label for="date"> Date: </label>
       <br />
-      <input type="date" bind:value={event.date} required />
+      <input
+        type="date"
+        bind:value={event.date}
+        required
+      />
     </section>
     <section>
-      <button type="button" on:click={goBack}> Cancel </button>
-      <button type="submit"> Create </button>
+      <button
+        type="button"
+        on:click={goBack}
+      >
+        Cancel
+      </button>
+      <button type="submit">
+        Create
+      </button>
     </section>
   </form>
 </main>
@@ -77,10 +106,17 @@
     border: solid 1px;
     padding: 8px 12px;
     border-radius: 8px;
-    border-color: rgba(173, 86, 86, 0.05);
+    border-color: rgba(
+      173,
+      86,
+      86,
+      0.05
+    );
     background: rgba(0, 0, 0, 0.03);
-    transition: background 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-      border-color 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: background 0.3s
+        cubic-bezier(0.25, 0.1, 0.25, 1),
+      border-color 0.3s
+        cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   input:hover {

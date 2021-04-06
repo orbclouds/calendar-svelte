@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount } from 'svelte';
 
-  const QS = import.meta.env.SNOWPACK_PUBLIC_ID
-    ? `?id=${import.meta.env.SNOWPACK_PUBLIC_ID}`
-    : "";
+  const QS = import.meta.env
+    .SNOWPACK_PUBLIC_ID
+    ? `?id=${
+        import.meta.env
+          .SNOWPACK_PUBLIC_ID
+      }`
+    : '';
 
   let show = false;
 
@@ -16,7 +20,10 @@
 
 <aside class:show>
   Deploy full-stack apps fast on Orb!
-  <a href={`https://www.orbclouds.com${QS}`} title="Deploy on Orb">Go</a>
+  <a
+    href={`https://www.orbclouds.com${QS}`}
+    title="Deploy on Orb">Go</a
+  >
 </aside>
 
 <style>
@@ -32,8 +39,10 @@
     align-items: center;
     justify-content: center;
     transform: translateY(-100%);
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 2px 2px
+      rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s
+      cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   aside.show {
@@ -47,7 +56,8 @@
     border-radius: 2px;
     border: solid 1px #ccc;
     background: rgba(0, 0, 0, 0);
-    transition: background 0.1s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: background 0.1s
+      cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   aside a:hover {

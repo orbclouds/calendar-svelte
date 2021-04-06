@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import type { Events } from "@app/events";
+  import type { Events } from '@app/events';
 
   interface Today {
     year: number;
@@ -11,18 +11,33 @@
   const DAYS_IN_WEEK = 7;
   const TODAY = new Date();
 
-  const getFormattedDay = (day: Date): Today => ({
+  const getFormattedDay = (
+    day: Date
+  ): Today => ({
     year: day.getFullYear(),
     month: day.getMonth(),
     weekday: day.getDay(),
     day: day.getDate(),
   });
 
-  const getNumberOfWeeks = ({ year, month }: Today): number => {
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-    const daysToSecondWeek = 7 - firstDayOfMonth.getDay();
-    const daysFromSecondLastWeekToLastDay = 1 + lastDayOfMonth.getDay();
+  const getNumberOfWeeks = ({
+    year,
+    month,
+  }: Today): number => {
+    const firstDayOfMonth = new Date(
+      year,
+      month,
+      1
+    );
+    const lastDayOfMonth = new Date(
+      year,
+      month + 1,
+      0
+    );
+    const daysToSecondWeek =
+      7 - firstDayOfMonth.getDay();
+    const daysFromSecondLastWeekToLastDay =
+      1 + lastDayOfMonth.getDay();
     const numberOfWeeks =
       2 +
       (lastDayOfMonth.getDate() -
@@ -32,8 +47,15 @@
     return numberOfWeeks;
   };
 
-  const getFirstDayOfWeek = (i: number, { year, month }: Today): Today => {
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
+  const getFirstDayOfWeek = (
+    i: number,
+    { year, month }: Today
+  ): Today => {
+    const firstDayOfMonth = new Date(
+      year,
+      month,
+      1
+    ).getDay();
     const firstVisibleDayOfMonth = new Date(
       year,
       month,
@@ -44,18 +66,25 @@
       month - 1,
       firstVisibleDayOfMonth + i * 7
     );
-    return getFormattedDay(firstDayOfWeek);
+    return getFormattedDay(
+      firstDayOfWeek
+    );
   };
 </script>
 
 <script lang="ts">
-  import dayStore from "@app/day";
-  import events from "@app/events";
-  import { getDateString } from "@app/utils";
+  import dayStore from '@app/day';
+  import events from '@app/events';
+  import { getDateString } from '@app/utils';
 
-  import { Link, navigate } from "svelte-routing";
+  import {
+    Link,
+    navigate,
+  } from 'svelte-routing';
 
-  const changeMonth = (by: number) => () => {
+  const changeMonth = (
+    by: number
+  ) => () => {
     dayStore.set(
       new Date(
         $dayStore.getFullYear(),
@@ -69,16 +98,32 @@
     events.set({} as Events);
   };
 
-  $: current = getFormattedDay($dayStore);
+  $: current = getFormattedDay(
+    $dayStore
+  );
 
-  $: numberOfWeeks = getNumberOfWeeks(current);
+  $: numberOfWeeks = getNumberOfWeeks(
+    current
+  );
 
-  $: weeks = new Array(numberOfWeeks).fill(null).map((_, i) => {
-    const { year, month, day } = getFirstDayOfWeek(i, current);
-    return new Array(DAYS_IN_WEEK).fill(null).map((_, j) => {
-      return new Date(year, month, day + j);
+  $: weeks = new Array(numberOfWeeks)
+    .fill(null)
+    .map((_, i) => {
+      const {
+        year,
+        month,
+        day,
+      } = getFirstDayOfWeek(i, current);
+      return new Array(DAYS_IN_WEEK)
+        .fill(null)
+        .map((_, j) => {
+          return new Date(
+            year,
+            month,
+            day + j
+          );
+        });
     });
-  });
 </script>
 
 <main>
@@ -91,26 +136,45 @@
     <thead>
       <tr>
         <th>
-          <button on:click={changeMonth(-1)} type="button" class="change-month">
+          <button
+            on:click={changeMonth(-1)}
+            type="button"
+            class="change-month"
+          >
             &lt;
           </button>
         </th>
         <th colspan={5}>
-          {$dayStore.toLocaleString(undefined, { month: "long" })}
+          {$dayStore.toLocaleString(
+            undefined,
+            { month: 'long' }
+          )}
           {$dayStore.getFullYear()}
         </th>
         <th>
-          <button on:click={changeMonth(1)} type="button" class="change-month">
+          <button
+            on:click={changeMonth(1)}
+            type="button"
+            class="change-month"
+          >
             &gt;
           </button>
         </th>
       </tr>
       <tr class="actions">
         <th colspan={7}>
-          <Link to={`/event/${getDateString($dayStore)}`} title="Add an Event">
+          <Link
+            to={`/event/${getDateString(
+              $dayStore
+            )}`}
+            title="Add an Event"
+          >
             + New Event
           </Link>
-          <button type="button" on:click={deleteAllEvents}>
+          <button
+            type="button"
+            on:click={deleteAllEvents}
+          >
             - Delete All Events
           </button>
         </th>
@@ -120,16 +184,26 @@
       {#each weeks as week}
         <tr>
           {#each week as day}
-            <td class:events={!!$events[getDateString(day, "-")]}>
+            <td
+              class:events={!!$events[
+                getDateString(day, '-')
+              ]}
+            >
               <Link
                 class={`date-link ${
-                  day.toDateString() === TODAY.toDateString() ? "today" : ""
+                  day.toDateString() ===
+                  TODAY.toDateString()
+                    ? 'today'
+                    : ''
                 } ${
-                  day.toDateString() === $dayStore.toDateString()
-                    ? "current"
-                    : ""
+                  day.toDateString() ===
+                  $dayStore.toDateString()
+                    ? 'current'
+                    : ''
                 }`}
-                to={`/day/${getDateString(day)}`}
+                to={`/day/${getDateString(
+                  day
+                )}`}
               >
                 {day.getDate()}
               </Link>
@@ -184,7 +258,7 @@
     left: 50%;
     width: 8px;
     height: 8px;
-    content: "";
+    content: '';
     bottom: 20%;
     position: absolute;
     border-radius: 50%;
@@ -199,7 +273,8 @@
     display: block;
     border-radius: 8px;
     background: rgba(0, 0, 0, 0);
-    transition: background 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: background 0.3s
+      cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   @media only screen and (min-width: 568px) {

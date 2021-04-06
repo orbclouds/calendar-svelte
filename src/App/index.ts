@@ -1,1 +1,1 @@
-export { default as default } from "./App.svelte";
+export { default as default } from './App.svelte';

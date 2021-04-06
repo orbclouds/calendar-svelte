@@ -1,27 +1,38 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 
 type CalendarEvent = string;
 
-export type Events = Record<string, CalendarEvent[]>;
+export type Events = Record<
+  string,
+  CalendarEvent[]
+>;
 
-const events = writable<Events>({}, (set) => {
-  const persistedEvents = localStorage.getItem("events");
-  if (!persistedEvents) {
-    set({});
-    return;
+const events = writable<Events>(
+  {},
+  (set) => {
+    const persistedEvents = localStorage.getItem(
+      'events'
+    );
+    if (!persistedEvents) {
+      set({});
+      return;
+    }
+    try {
+      set(JSON.parse(persistedEvents));
+    } catch {
+      set({});
+    }
   }
-  try {
-    set(JSON.parse(persistedEvents));
-  } catch {
-    set({});
-  }
-});
+);
 
 events.subscribe((value) => {
   try {
-    localStorage.setItem("events", JSON.stringify(value));
+    localStorage.setItem(
+      'events',
+      JSON.stringify(value)
+    );
   } catch {
-    alert("Failed to save.");
+    alert('Failed to save.');
   }
 });
 
