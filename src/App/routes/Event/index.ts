@@ -1,1 +1,1 @@
-export { default as default } from './Event.svelte'
+export { default as default } from "./Event.svelte";
